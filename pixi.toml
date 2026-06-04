@@ -1,0 +1,25 @@
+[workspace]
+name = "tqtech-assessment"
+channels = ["conda-forge"]
+platforms = ["win-64", "linux-64", "osx-64", "osx-arm64"]
+
+[dependencies]
+nodejs = "==22.22.3"
+pnpm = "==10.26.2"
+python = "==3.12.13"
+uv = "==0.8.24"
+
+[tasks]
+install = { cmd = "uv sync", cwd = "backend", depends-on = ["frontend-install"] }
+frontend-install = { cmd = "pixi run pnpm install", cwd = "frontend" }
+backend-dev = { cmd = "uv run uvicorn app.main:app --reload --host 0.0.0.0 --port 8000", cwd = "backend" }
+frontend-dev = { cmd = "pixi run pnpm run dev", cwd = "frontend" }
+backend-test = { cmd = "python scripts/test_pdf_report.py backend-test backend -- uv run pytest" }
+frontend-test = { cmd = "python scripts/test_pdf_report.py frontend-test frontend -- pixi run pnpm run test" }
+frontend-build = { cmd = "pixi run pnpm run build", cwd = "frontend" }
+backend-lint = { cmd = "uv run ruff check .", cwd = "backend" }
+backend-format-check = { cmd = "uv run ruff format --check .", cwd = "backend" }
+frontend-lint = { cmd = "pixi run pnpm run lint", cwd = "frontend" }
+frontend-format-check = { cmd = "pixi run pnpm run format:check", cwd = "frontend" }
+test = { depends-on = ["backend-test", "frontend-test", "frontend-build"] }
+check = { depends-on = ["backend-lint", "backend-format-check", "frontend-lint", "frontend-format-check", "test"] }

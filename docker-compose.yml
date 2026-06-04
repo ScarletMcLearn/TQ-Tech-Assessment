@@ -1,0 +1,24 @@
+services:
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "8000:8000"
+    environment:
+      EMAIL_SOURCE: ${EMAIL_SOURCE:-mock}
+      MOCK_EMAIL_FILE: ${MOCK_EMAIL_FILE:-./data/mock_emails.json}
+      AI_PROVIDER: ${AI_PROVIDER:-rules}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      POLL_INTERVAL_SECONDS: ${POLL_INTERVAL_SECONDS:-30}
+      DATABASE_URL: ${DATABASE_URL:-sqlite:///./data/app.db}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3000}
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_API_BASE_URL: ${VITE_API_BASE_URL:-http://localhost:8000}
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend

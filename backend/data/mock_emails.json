@@ -1,0 +1,86 @@
+[
+  {
+    "id": "mock-001",
+    "sender": "maria.gomez@northwind.example",
+    "subject": "Urgent client complaint about delayed onboarding",
+    "body": "The client is unhappy and has raised a formal complaint. They need an update before the end of the day.",
+    "received_at": "2026-06-04T08:05:00Z"
+  },
+  {
+    "id": "mock-002",
+    "sender": "billing@stripe-example.test",
+    "subject": "Payment failure for Acme Corp invoice",
+    "body": "The latest invoice payment failed because the customer card was declined. Please review the account.",
+    "received_at": "2026-06-04T08:18:00Z"
+  },
+  {
+    "id": "mock-003",
+    "sender": "finance@globex.example",
+    "subject": "Billing issue on annual renewal",
+    "body": "We noticed an invoice overdue notice and need the billing issue resolved before procurement closes.",
+    "received_at": "2026-06-04T08:31:00Z"
+  },
+  {
+    "id": "mock-004",
+    "sender": "monitoring@tqtech.example",
+    "subject": "Server down in EU production cluster",
+    "body": "The API service is down and health checks are failing for multiple production nodes.",
+    "received_at": "2026-06-04T08:42:00Z"
+  },
+  {
+    "id": "mock-005",
+    "sender": "incident@status.example",
+    "subject": "Production outage affecting checkout",
+    "body": "A production outage is preventing checkout from completing. Incident response is required.",
+    "received_at": "2026-06-04T08:57:00Z"
+  },
+  {
+    "id": "mock-006",
+    "sender": "support@initech.example",
+    "subject": "Customer refund request after duplicate charge",
+    "body": "The customer says they were charged twice and is asking for a refund request to be handled today.",
+    "received_at": "2026-06-04T09:09:00Z"
+  },
+  {
+    "id": "mock-007",
+    "sender": "accounts@saas-vendor.example",
+    "subject": "Subscription renewal notice for monitoring plan",
+    "body": "Your subscription renewal is scheduled for next week. This automated account notice is for your records.",
+    "received_at": "2026-06-04T09:22:00Z"
+  },
+  {
+    "id": "mock-008",
+    "sender": "reports@analytics.example",
+    "subject": "Automated account activity digest",
+    "body": "This scheduled digest contains low-priority automated report information for the account.",
+    "received_at": "2026-06-04T09:35:00Z"
+  },
+  {
+    "id": "mock-009",
+    "sender": "newsletter@industry.example",
+    "subject": "Weekly AI operations newsletter",
+    "body": "Read this week's newsletter about productivity, automation trends, and conference updates.",
+    "received_at": "2026-06-04T09:48:00Z"
+  },
+  {
+    "id": "mock-010",
+    "sender": "deals@marketing.example",
+    "subject": "Limited time promotional discount",
+    "body": "Buy now and unlock a promotional discount for sponsored software bundles.",
+    "received_at": "2026-06-04T10:01:00Z"
+  },
+  {
+    "id": "mock-011",
+    "sender": "winner@promo.example",
+    "subject": "You are a winner of a free prize",
+    "body": "Claim your free prize today by clicking this promotional link.",
+    "received_at": "2026-06-04T10:14:00Z"
+  },
+  {
+    "id": "mock-012",
+    "sender": "ceo@contoso.example",
+    "subject": "Urgent request from customer leadership",
+    "body": "Customer leadership needs immediate help with contract access as soon as possible.",
+    "received_at": "2026-06-04T10:27:00Z"
+  }
+]
