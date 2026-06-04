@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: ai-email-reading-agent-api
+    runtime: python
+    plan: free
+    rootDir: backend
+    buildCommand: pip install uv==0.8.24 && uv sync --frozen --no-dev
+    startCommand: uv run uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: EMAIL_SOURCE
+        value: mock
+      - key: MOCK_EMAIL_FILE
+        value: ./data/mock_emails.json
+      - key: AI_PROVIDER
+        value: rules
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: POLL_INTERVAL_SECONDS
+        value: "30"
+      - key: DATABASE_URL
+        value: sqlite:///./data/app.db
+      - key: CORS_ORIGINS
+        sync: false

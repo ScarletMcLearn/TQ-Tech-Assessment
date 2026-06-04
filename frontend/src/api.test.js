@@ -17,7 +17,6 @@ describe("api client", () => {
     await getHealth();
 
     expect(fetchMock).toHaveBeenCalledWith("http://localhost:8000/health", {
-      headers: { "Content-Type": "application/json" },
     });
   });
 
@@ -31,7 +30,6 @@ describe("api client", () => {
     await runAgentOnce();
 
     expect(fetchMock).toHaveBeenCalledWith("http://localhost:8000/agent/run-once", {
-      headers: { "Content-Type": "application/json" },
       method: "POST",
     });
   });

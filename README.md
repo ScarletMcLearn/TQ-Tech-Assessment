@@ -152,6 +152,80 @@ Services:
 - Backend API: `http://localhost:8000`
 - Frontend dashboard: `http://localhost:3000`
 
+## Free No-Card Deployment
+
+Recommended deployment:
+
+- Backend API: Render Free Web Service.
+- Frontend dashboard: Cloudflare Pages.
+- Database: keep the default SQLite database for the assessment demo.
+
+This keeps the frontend on static hosting and runs the FastAPI scheduler on a
+long-running backend service. SQLite data may reset on free hosting restarts or
+redeploys, but the mock dataset is bundled and the scheduler repopulates the demo
+notifications on startup.
+
+### Backend on Render
+
+Use the root `render.yaml` Blueprint, or create a Render Web Service manually
+with these settings:
+
+| Setting | Value |
+| --- | --- |
+| Root directory | `backend` |
+| Runtime | Python |
+| Build command | `pip install uv==0.8.24 && uv sync --frozen --no-dev` |
+| Start command | `uv run uvicorn app.main:app --host 0.0.0.0 --port $PORT` |
+| Plan | Free |
+
+Backend environment variables:
+
+| Variable | Value |
+| --- | --- |
+| `EMAIL_SOURCE` | `mock` |
+| `MOCK_EMAIL_FILE` | `./data/mock_emails.json` |
+| `AI_PROVIDER` | `rules` |
+| `OPENAI_API_KEY` | empty unless intentionally using OpenAI |
+| `POLL_INTERVAL_SECONDS` | `30` |
+| `DATABASE_URL` | `sqlite:///./data/app.db` |
+| `CORS_ORIGINS` | deployed Cloudflare Pages URL, for example `https://your-project.pages.dev` |
+
+After deployment, verify:
+
+```bash
+curl https://your-render-service.onrender.com/health
+```
+
+### Frontend on Cloudflare Pages
+
+Create a Cloudflare Pages project from the same GitHub repository:
+
+| Setting | Value |
+| --- | --- |
+| Project root | `frontend` |
+| Framework preset | Vite |
+| Build command | `pnpm install --frozen-lockfile && pnpm run build` |
+| Build output directory | `dist` |
+
+Frontend environment variable:
+
+| Variable | Value |
+| --- | --- |
+| `VITE_API_BASE_URL` | deployed Render backend URL, for example `https://your-render-service.onrender.com` |
+
+After the frontend URL is known, update Render's `CORS_ORIGINS` to that exact
+origin and redeploy the backend if needed.
+
+### Deployment Verification
+
+Before sharing the live demo, verify:
+
+- `https://your-render-service.onrender.com/health` returns `status: ok`.
+- The Cloudflare Pages dashboard loads without browser console CORS errors.
+- Notifications appear after backend startup.
+- `Run Agent Now` works from the deployed dashboard.
+- The frontend was rebuilt after setting `VITE_API_BASE_URL`.
+
 ## Mock Data
 
 The mock dataset includes urgent client complaints, payment failures, billing issues, server outages, production incidents, refund requests, subscription notices, automated account notices, newsletters, and promotional spam.
@@ -221,6 +295,7 @@ There is no CI workflow in this repository. If one is added later, run
 - Gmail and IMAP are not implemented; mock mode is the complete MVP path.
 - OpenAI classification is optional and falls back to rules on any error.
 - SQLite is suitable for the assessment demo, not high-concurrency production workloads.
+- SQLite data on free app hosting can be ephemeral across restarts and redeploys.
 - There is no authentication layer.
 - The frontend API URL is set at build time through `VITE_API_BASE_URL`.
 
@@ -230,4 +305,4 @@ There is no CI workflow in this repository. If one is added later, run
 - Add a notification detail drawer and acknowledgement workflow.
 - Add classifier audit history for every processed email.
 - Add pagination/filtering for large inboxes.
-- Add deployment configuration for a live demo environment.
+- Add Postgres support if persistent hosted demo data becomes necessary.
